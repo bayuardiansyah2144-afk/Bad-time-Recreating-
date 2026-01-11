@@ -1,2 +1,88 @@
 # Bad-time-Recreating-
 Making process 
+Script which will be used :
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bad Time Mini</title>
+<style>
+body {
+  background: black;
+  color: white;
+  text-align: center;
+}
+
+#arena {
+  width: 300px;
+  height: 300px;
+  border: 3px solid white;
+  margin: auto;
+  position: relative;
+}
+
+#player {
+  width: 20px;
+  height: 20px;
+  background: red;
+  position: absolute;
+  left: 140px;
+  top: 260px;
+}
+
+.bone {
+  width: 20px;
+  height: 20px;
+  background: white;
+  position: absolute;
+}
+</style>
+</head>
+
+<body>
+<h2>BAD TIME</h2>
+<div id="arena">
+  <div id="player"></div>
+</div>
+
+<script>
+let arena = document.getElementById("arena");
+let player = document.getElementById("player");
+let px = 140;
+
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowLeft" && px > 0) px -= 10;
+  if (e.key === "ArrowRight" && px < 280) px += 10;
+  player.style.left = px + "px";
+});
+
+function spawnBone() {
+  let bone = document.createElement("div");
+  bone.className = "bone";
+  bone.style.left = Math.random() * 280 + "px";
+  bone.style.top = "0px";
+  arena.appendChild(bone);
+
+  let fall = setInterval(() => {
+    let y = bone.offsetTop + 5;
+    bone.style.top = y + "px";
+
+    if (y > 280) {
+      bone.remove();
+      clearInterval(fall);
+    }
+
+    // collision
+    if (
+      y > 240 &&
+      Math.abs(bone.offsetLeft - px) < 20
+    ) {
+      alert("BAD TIME 💀");
+      location.reload();
+    }
+  }, 30);
+}
+
+setInterval(spawnBone, 800);
+</script>
+</body>
+</html>
